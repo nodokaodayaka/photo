@@ -14,7 +14,7 @@ class PhotoController extends Controller
     public function __construct()
     {
         // 認証が必要
-        $this->middleware('auth')->except(['index', 'download','show']);
+        $this->middleware('auth')->except(['index', 'show']);
     }
     /**
      * 写真投稿
