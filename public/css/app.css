@@ -129,13 +129,13 @@ img {
 }
 
 .photo__image--landscape {
-  max-height: 100%;
+  height: 100%;
   max-width: none;
   opacity: 1;
 }
 
 .photo__image--portrait {
-  max-width: 100%;
+  width: 100%;
   opacity: 1;
 }
 

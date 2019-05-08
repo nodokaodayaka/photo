@@ -46,7 +46,7 @@ class PhotoSubmitApiTest extends TestCase
         $this->assertRegExp('/^[0-9a-zA-Z-_]{12}$/', $photo->id);
 
         // DBに挿入されたファイル名のファイルがストレージに保存されていること
-        Storage::disk("local")->assertExists($photo->filename);
+        Storage::disk("public")->assertExists($photo->filename);
     }
 
     /**

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
+    protected $perPage = 2; // この値を少なくすれば動作確認しやすいですね
+
     /** プライマリキーの型 */
     protected $keyType = 'string';
 
@@ -77,6 +79,6 @@ class Photo extends Model
      */
     public function getUrlAttribute()
     {
-        return Storage::disk('local')->url($this->attributes['filename']);
+        return Storage::disk('public')->url($this->attributes['filename']);
     }
 }

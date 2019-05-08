@@ -14,7 +14,7 @@ class PhotoController extends Controller
     public function __construct()
     {
         // 認証が必要
-        $this->middleware('auth')->except(['index', 'download']);
+        $this->middleware('auth')->except(['index', 'download','show']);
     }
     /**
      * 写真投稿
@@ -33,7 +33,7 @@ class PhotoController extends Controller
         $photo->filename = $photo->id . '.' . $extension;
 
         // 第三引数の'public'はファイルを公開状態で保存するため
-        Storage::disk('local')->putFileAs('', $request->photo, $photo->filename, 'public');
+        Storage::disk('public')->putFileAs('', $request->photo, $photo->filename, 'public');
 
         // データベースエラー時にファイル削除を行うため
         // トランザクションを利用する
@@ -73,7 +73,7 @@ class PhotoController extends Controller
     public function download(Photo $photo)
     {
         // 写真の存在チェック
-        if (! Storage::disk('local')->exists($photo->filename)) {
+        if (! Storage::disk('public')->exists($photo->filename)) {
             abort(404);
         }
 
@@ -82,6 +82,18 @@ class PhotoController extends Controller
             'Content-Disposition' => 'attachment; filename="' . $photo->filename . '"',
         ];
 
-        return response(Storage::disk('local')->get($photo->filename), 200, $headers);
+        return response(Storage::disk('public')->get($photo->filename), 200, $headers);
+    }
+
+    /**
+     * 写真詳細
+     * @param string $id
+     * @return Photo
+     */
+    public function show(string $id)
+    {
+        $photo = Photo::where('id', $id)->with(['owner'])->first();
+
+        return $photo ?? abort(404);
     }
 }
