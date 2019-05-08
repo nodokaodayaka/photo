@@ -109,11 +109,13 @@
         created () {
             this.clearError()
         },
-        computed: mapState({
-            apiStatus: state => state.auth.apiStatus,
-            loginErrors: state => state.auth.loginErrorMessages,
-            registerErrors: state => state.auth.registerErrorMessages
-        }),
+        computed: {
+            ...mapState({
+                apiStatus: state => state.auth.apiStatus,
+                loginErrors: state => state.auth.loginErrorMessages,
+                registerErrors: state => state.auth.registerErrorMessages
+            })
+        }
 
     }
 </script>

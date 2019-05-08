@@ -25,6 +25,13 @@
             Pagination // ★ 追加
 
         },
+        props: {
+            page: {
+                type: Number,
+                required: false,
+                default: 1
+            }
+        },
         data () {
             return {
                 photos: [],
@@ -34,13 +41,12 @@
         },
         methods: {
             async fetchPhotos () {
-                const response = await axios.get(`/api/photos/?page=${this.currentPage}`)
+                const response = await axios.get(`/api/photos/?page=${this.page}`)
 
                 if (response.status !== OK) {
                     this.$store.commit('error/setCode', response.status)
                     return false
                 }
-
                 this.photos = response.data.data
                 this.currentPage = response.data.current_page
                 this.lastPage = response.data.last_page
