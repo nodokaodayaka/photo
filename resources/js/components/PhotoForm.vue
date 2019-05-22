@@ -14,6 +14,10 @@
             <output class="form__output" v-if="preview">
                 <img :src="preview" alt="">
             </output>
+            <input class="" type="checkbox" value="ねこ" v-model="checkedTags">ねこ
+            <input class="" type="checkbox" value="かわいい" v-model="checkedTags">かわいい
+            <input class="" type="checkbox" value="ボブ" v-model="checkedTags">ボブ
+            <span>Checked names: {{ checkedTags }}</span>
             <div class="form__button">
                 <button type="submit" class="button button--inverse">submit</button>
             </div>
@@ -39,7 +43,8 @@
                 loading: false,
                 preview: null,
                 photo: null,
-                errors: null
+                errors: null,
+                checkedTags: []
             }
         },
         methods: {
@@ -86,6 +91,7 @@
 
                 const formData = new FormData()
                 formData.append('photo', this.photo)
+                formData.append('checkedTags', this.checkedTags)
                 const response = await axios.post('/api/photos', formData)
 
                 this.loading = false

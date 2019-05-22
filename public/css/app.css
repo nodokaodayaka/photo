@@ -218,6 +218,7 @@ img {
 .photo-detail__image {
   cursor: zoom-in;
   margin-bottom: 1.5rem;
+  transition: 0.5s;
 }
 
 .photo-detail__image figcaption {
@@ -243,6 +244,7 @@ img {
   border-bottom: 1px solid #dedede;
   margin-bottom: 1.5rem;
   padding: 0 0 1.5rem 0;
+  word-break: break-all;
 }
 
 .photo-detail__commentBody {
@@ -252,6 +254,18 @@ img {
 .photo-detail__commentInfo {
   color: #8a8a8a;
   margin: 0;
+}
+
+.tag {
+  display: inline-block;
+}
+
+.tag a {
+  display: inline-block;
+  padding: 10px;
+  background-color: #eee;
+  text-decoration: none;
+  color: #333333;
 }
 
 .photo-form {
