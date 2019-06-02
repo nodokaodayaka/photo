@@ -19,73 +19,48 @@ class PhotoController extends Controller
         // 認証が必要
         $this->middleware('auth')->except(['index', 'show', 'download']);
     }
-//    /**
-//     * 写真投稿
-//     * @param StorePhoto $request
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function create(StorePhoto $request)
-//    {
-//
-//        // 投稿写真の拡張子を取得する
-//        $extension = $request->photo->extension();
-//
-//        $photo = new Photo();
-//
-//        // インスタンス生成時に割り振られたランダムなID値と
-//        // 本来の拡張子を組み合わせてファイル名とする
-//        $photo->filename = $photo->id . '.' . $extension;
-//
-//        // 第三引数の'public'はファイルを公開状態で保存するため
-//        Storage::disk('public')->putFileAs('', $request->photo, $photo->filename, 'public');
-//
-//        // データベースエラー時にファイル削除を行うため
-//        // トランザクションを利用する
-//        DB::beginTransaction();
-//
-//        try {
-////            $tags = $request->get('checkedTags');
-////            $tagList = [];
-////            foreach (explode(',', $tags) as $tag) {
-////                $tagList[] = Tag::firstOrCreate(['name' => $tag])->id;
-////            }
-//            Auth::user()->photos()->save($photo);
-//            //dd($photo->id);
-////            $photo->tags()->sync($tagList);
-//            DB::commit();
-//        } catch (\Exception $exception) {
-//            DB::rollBack();
-//            // DBとの不整合を避けるためアップロードしたファイルを削除
-//            Storage::cloud()->delete($photo->filename);
-//            throw $exception;
-//        }
-//
-//        // リソースの新規作成なので
-//        // レスポンスコードは201(CREATED)を返却する
-////        dd($photo);
-//        return response($photo, 201);
-//    }
-
+    /**
+     * 写真投稿
+     * @param StorePhoto $request
+     * @return \Illuminate\Http\Response
+     */
     public function create(StorePhoto $request)
     {
+        // 投稿写真の拡張子を取得する
         $extension = $request->photo->extension();
 
         $photo = new Photo();
+
+        // インスタンス生成時に割り振られたランダムなID値と
+        // 本来の拡張子を組み合わせてファイル名とする
         $photo->filename = $photo->id . '.' . $extension;
 
+        // 第三引数の'public'はファイルを公開状態で保存するため
         Storage::disk('public')->putFileAs('', $request->photo, $photo->filename, 'public');
 
+        // データベースエラー時にファイル削除を行うため
+        // トランザクションを利用する
         DB::beginTransaction();
 
         try {
+            $tags = $request->get('checkedTags');
+            $tagList = [];
+            foreach (explode(',', $tags) as $tag) {
+                $tagList[] = Tag::firstOrCreate(['name' => $tag])->id;
+            }
             Auth::user()->photos()->save($photo);
+            //dd($photo->id);
+            $photo->tags()->sync($tagList);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            Storage::cloud()->delete($photo->filename);
+            // DBとの不整合を避けるためアップロードしたファイルを削除
+            Storage::disk('public')->delete($photo->filename);
             throw $exception;
         }
 
+        // リソースの新規作成なので
+        // レスポンスコードは201(CREATED)を返却する
         return response($photo, 201);
     }
 

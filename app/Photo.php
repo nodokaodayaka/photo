@@ -25,13 +25,14 @@ class Photo extends Model
 
     /** JSONに含めるアクセサ */
     protected $appends = [
-        'url', 'likes_count', 'liked_by_user',
+        'url', 'likes_count', 'liked_by_user', 'tag_names',
     ];
 
     /** JSONに含める属性 */
     protected $visible = [
         'id', 'owner', 'url', 'comments',
         'likes_count', 'liked_by_user',
+        'tag_names',
     ];
 
     public function __construct(array $attributes = [])
@@ -144,6 +145,6 @@ class Photo extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Tag', 'photo_tag')->withTimestamps();
+        return $this->belongsToMany('App\Tag', 'photo_tag', 'photo_id', 'tag_id')->withTimestamps();
     }
 }

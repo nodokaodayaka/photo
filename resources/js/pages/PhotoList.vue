@@ -1,5 +1,6 @@
 <template>
     <div class="photo-list">
+        <SearchForm/>
         <div class="grid">
             <Photo
                     class="grid__item"
@@ -18,13 +19,13 @@
     import { OK } from '../util'
     import Photo from '../components/Photo.vue'
     import Pagination from '../components/Pagination.vue' // ★ 追加
-
+    import SearchForm from '../components/SearchForm.vue'
 
     export default {
         components: {
             Photo,
-            Pagination // ★ 追加
-
+            Pagination, // ★ 追加
+            SearchForm
         },
         props: {
             page: {

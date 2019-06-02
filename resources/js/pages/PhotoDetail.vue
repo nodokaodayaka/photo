@@ -28,9 +28,7 @@
                 <i class="icon ion-md-arrow-round-down"></i>Download
             </a>
             <div class="tag">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
+                <a href="#" v-for="tag in photo.tag_names">{{ tag.name }}</a>
             </div>
             <h2 class="photo-detail__title">
                 <i class="icon ion-md-chatboxes"></i>Comments

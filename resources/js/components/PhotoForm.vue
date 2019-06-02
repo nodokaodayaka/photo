@@ -14,10 +14,13 @@
             <output class="form__output" v-if="preview">
                 <img :src="preview" alt="">
             </output>
-            <input class="" type="checkbox" value="ねこ" v-model="checkedTags">ねこ
-            <input class="" type="checkbox" value="かわいい" v-model="checkedTags">かわいい
-            <input class="" type="checkbox" value="ボブ" v-model="checkedTags">ボブ
-            <span>Checked names: {{ checkedTags }}</span>
+<!--            <input class="" type="checkbox" value="ねこ" v-model="checkedTags">ねこ-->
+<!--            <input class="" type="checkbox" value="かわいい" v-model="checkedTags">かわいい-->
+<!--            <input class="" type="checkbox" value="ボブ" v-model="checkedTags">ボブ-->
+                <input type="text" v-model="inputTag" @keydown.enter.prevent="pushTag">
+                <div class="tag">
+                    <a v-for="tag in tags">{{tag}}</a>
+                </div>
             <div class="form__button">
                 <button type="submit" class="button button--inverse">submit</button>
             </div>
@@ -44,7 +47,9 @@
                 preview: null,
                 photo: null,
                 errors: null,
-                checkedTags: []
+                checkedTags: [],
+                inputTag:'',
+                tags: []
             }
         },
         methods: {
@@ -84,14 +89,24 @@
                 this.preview = ''
                 this.errors = '' // エラー処理はどこにいれるの？
                 this.photo = null // ★ 追加
+                this.tags = []
+                this.inputTag = ''
                 this.$el.querySelector('input[type="file"]').value = null
+            },
+            pushTag (event) {
+                console.log(event)
+                if (event.keyCode !== 13) return
+                if (this.inputTag .length> 0 && this.tags.indexOf(this.inputTag) < 0) {
+                    this.tags.push(this.inputTag)
+                    this.inputTag = ''
+                }
             },
             async submit () {
                 this.loading = true
 
                 const formData = new FormData()
                 formData.append('photo', this.photo)
-                formData.append('checkedTags', this.checkedTags)
+                formData.append('checkedTags', this.tags)
                 const response = await axios.post('/api/photos', formData)
 
                 this.loading = false

@@ -15,7 +15,7 @@ class CreateTablePhotoTag extends Migration
     {
         Schema::create('photo_tag', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('photo_id');
+            $table->string('photo_id');
             $table->unsignedInteger('tag_id');
             $table->timestamps();
         });
