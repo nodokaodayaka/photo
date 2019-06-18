@@ -22,7 +22,8 @@ const routes = [
         component: PhotoList,
         props: route => {
             const page = route.query.page
-            return { page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1 }
+            const tag = route.query.tag
+            return { page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1 , tag: tag}
         }
     },
     {

@@ -2112,6 +2112,10 @@ __webpack_require__.r(__webpack_exports__);
     lastPage: {
       type: Number,
       required: true
+    },
+    tagQuery: {
+      type: String,
+      required: true
     }
   },
   computed: {
@@ -2435,12 +2439,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "SearchForm"
+  name: "SearchForm",
+  data: function data() {
+    return {
+      tag_text: ''
+    };
+  },
+  methods: {
+    submit: function () {
+      var _submit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                console.log('submit'); // this.$router.push(`/?page=2`)
+
+                this.$router.push({
+                  path: '/',
+                  query: {
+                    tag: this.tag_text
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submit() {
+        return _submit.apply(this, arguments);
+      }
+
+      return submit;
+    }()
+  }
 });
 
 /***/ }),
@@ -3028,13 +3084,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       type: Number,
       required: false,
       "default": 1
+    },
+    tag: {
+      type: String,
+      required: false,
+      "default": ''
     }
   },
   data: function data() {
     return {
       photos: [],
       currentPage: 0,
-      lastPage: 0
+      lastPage: 0,
+      tagQuery: ''
     };
   },
   methods: {
@@ -3047,26 +3109,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.get("/api/photos/?page=".concat(this.page));
+                this.tagQuery = this.tag ? '&tag=' + this.tag : '';
+                _context.next = 3;
+                return axios.get("/api/photos/?page=".concat(this.page).concat(this.tagQuery));
 
-              case 2:
+              case 3:
                 response = _context.sent;
 
                 if (!(response.status !== _util__WEBPACK_IMPORTED_MODULE_1__["OK"])) {
-                  _context.next = 6;
+                  _context.next = 7;
                   break;
                 }
 
                 this.$store.commit('error/setCode', response.status);
                 return _context.abrupt("return", false);
 
-              case 6:
+              case 7:
                 this.photos = response.data.data;
                 this.currentPage = response.data.current_page;
                 this.lastPage = response.data.last_page;
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -4779,7 +4842,7 @@ var render = function() {
             "RouterLink",
             {
               staticClass: "button",
-              attrs: { to: "/?page=" + (_vm.currentPage - 1) }
+              attrs: { to: "/?page=" + (_vm.currentPage - 1) + _vm.tagQuery }
             },
             [_vm._v("« prev")]
           )
@@ -4790,7 +4853,7 @@ var render = function() {
             "RouterLink",
             {
               staticClass: "button",
-              attrs: { to: "/?page=" + (_vm.currentPage + 1) }
+              attrs: { to: "/?page=" + (_vm.currentPage + 1) + _vm.tagQuery }
             },
             [_vm._v("next »")]
           )
@@ -5076,9 +5139,44 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("input", {
-    attrs: { type: "text", placeholder: "検索したいタグを入力" }
-  })
+  return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "form",
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.submit($event)
+          }
+        }
+      },
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.tag_text,
+              expression: "tag_text"
+            }
+          ],
+          attrs: { type: "text", placeholder: "検索したいタグを入力" },
+          domProps: { value: _vm.tag_text },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.tag_text = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("button", { attrs: { type: "submit" } }, [_vm._v("検索")])
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5685,7 +5783,11 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("Pagination", {
-        attrs: { "current-page": _vm.currentPage, "last-page": _vm.lastPage }
+        attrs: {
+          "current-page": _vm.currentPage,
+          "last-page": _vm.lastPage,
+          tagQuery: _vm.tagQuery
+        }
       })
     ],
     1
@@ -22699,8 +22801,10 @@ var routes = [{
   component: _pages_PhotoList_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   props: function props(route) {
     var page = route.query.page;
+    var tag = route.query.tag;
     return {
-      page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1
+      page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1,
+      tag: tag
     };
   }
 }, {

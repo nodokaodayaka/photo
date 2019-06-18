@@ -10,7 +10,7 @@
                     @like="onLikeClick"
             />
         </div>
-        <Pagination :current-page="currentPage" :last-page="lastPage" />
+        <Pagination :current-page="currentPage" :last-page="lastPage" :tagQuery="tagQuery" />
     </div>
 </template>
 
@@ -32,18 +32,25 @@
                 type: Number,
                 required: false,
                 default: 1
+            },
+            tag: {
+                type: String,
+                required: false,
+                default: ''
             }
         },
         data () {
             return {
                 photos: [],
                 currentPage: 0,
-                lastPage: 0
+                lastPage: 0,
+                tagQuery: '',
             }
         },
         methods: {
             async fetchPhotos () {
-                const response = await axios.get(`/api/photos/?page=${this.page}`)
+                this.tagQuery = this.tag ? '&tag=' + this.tag : ''
+                const response = await axios.get(`/api/photos/?page=${this.page}${this.tagQuery}`)
 
                 if (response.status !== OK) {
                     this.$store.commit('error/setCode', response.status)
