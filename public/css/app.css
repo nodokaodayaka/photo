@@ -544,3 +544,29 @@ img {
   padding: 1rem;
 }
 
+.search-form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 1px;
+}
+
+.search-form__input {
+  width: 800px;
+  height: 50px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  padding: 5px 20px;
+  font-size: 24px;
+}
+
+.search-form__input:focus,
+.search-form__input:active {
+  outline: none;
+}
+
+.search-form__button {
+  display: none;
+}
+

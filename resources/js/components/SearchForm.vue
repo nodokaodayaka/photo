@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="search-form">
         <form class="form" @submit.prevent="submit">
-        <input type="text" v-model="tag_text" placeholder="検索したいタグを入力">
-        <button type="submit">検索</button>
+        <input class="search-form__input" type="text" v-model="tag_text" placeholder="検索したいタグを入力">
+        <button class="search-form__button" type="submit">検索</button>
         </form>
     </div>
 

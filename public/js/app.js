@@ -3067,6 +3067,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
  // ★ 追加
@@ -5139,7 +5141,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "search-form" }, [
     _c(
       "form",
       {
@@ -5161,6 +5163,7 @@ var render = function() {
               expression: "tag_text"
             }
           ],
+          staticClass: "search-form__input",
           attrs: { type: "text", placeholder: "検索したいタグを入力" },
           domProps: { value: _vm.tag_text },
           on: {
@@ -5173,7 +5176,11 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _c("button", { attrs: { type: "submit" } }, [_vm._v("検索")])
+        _c(
+          "button",
+          { staticClass: "search-form__button", attrs: { type: "submit" } },
+          [_vm._v("検索")]
+        )
       ]
     )
   ])
@@ -5764,31 +5771,37 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "photo-list" },
     [
       _c("SearchForm"),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "grid" },
-        _vm._l(_vm.photos, function(photo) {
-          return _c("Photo", {
-            key: photo.id,
-            staticClass: "grid__item",
-            attrs: { item: photo },
-            on: { like: _vm.onLikeClick }
+        { staticClass: "photo-list" },
+        [
+          _c(
+            "div",
+            { staticClass: "grid" },
+            _vm._l(_vm.photos, function(photo) {
+              return _c("Photo", {
+                key: photo.id,
+                staticClass: "grid__item",
+                attrs: { item: photo },
+                on: { like: _vm.onLikeClick }
+              })
+            }),
+            1
+          ),
+          _vm._v(" "),
+          _c("Pagination", {
+            attrs: {
+              "current-page": _vm.currentPage,
+              "last-page": _vm.lastPage,
+              tagQuery: _vm.tagQuery
+            }
           })
-        }),
+        ],
         1
-      ),
-      _vm._v(" "),
-      _c("Pagination", {
-        attrs: {
-          "current-page": _vm.currentPage,
-          "last-page": _vm.lastPage,
-          tagQuery: _vm.tagQuery
-        }
-      })
+      )
     ],
     1
   )

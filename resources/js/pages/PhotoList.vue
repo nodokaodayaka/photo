@@ -1,16 +1,18 @@
 <template>
-    <div class="photo-list">
+    <div>
         <SearchForm/>
-        <div class="grid">
-            <Photo
-                    class="grid__item"
-                    v-for="photo in photos"
-                    :key="photo.id"
-                    :item="photo"
-                    @like="onLikeClick"
-            />
+        <div class="photo-list">
+            <div class="grid">
+                <Photo
+                        class="grid__item"
+                        v-for="photo in photos"
+                        :key="photo.id"
+                        :item="photo"
+                        @like="onLikeClick"
+                />
+            </div>
+            <Pagination :current-page="currentPage" :last-page="lastPage" :tagQuery="tagQuery" />
         </div>
-        <Pagination :current-page="currentPage" :last-page="lastPage" :tagQuery="tagQuery" />
     </div>
 </template>
 
