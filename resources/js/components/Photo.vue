@@ -68,7 +68,9 @@
         },
         methods: {
             setAspectRatio () {
+                console.log('setAspectRatio start')
                 if (! this.$refs.image) {
+                    console.log("setAspectRatio")
                     return false
                 }
                 const height = this.$refs.image.clientHeight

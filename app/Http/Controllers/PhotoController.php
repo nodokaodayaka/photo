@@ -67,9 +67,14 @@ class PhotoController extends Controller
     /**
      * 写真一覧
      */
-    public function index()
+    public function index(Request $request)
     {
+        $tag = $request->get('tag');
         $photos = Photo::with(['owner', 'likes'])
+            ->whereHas('tags', function ($q) use ($tag){
+                if ($tag)
+                    $q->where('name', $tag);
+            })
             ->orderBy(Photo::CREATED_AT, 'desc')->paginate();
 
         return $photos;

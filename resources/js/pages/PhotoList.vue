@@ -6,7 +6,7 @@
                 <Photo
                         class="grid__item"
                         v-for="photo in photos"
-                        :key="photo.dummy_id"
+                        :key="photo.key_id"
                         :item="photo"
                         @like="onLikeClick"
                 />
@@ -58,15 +58,19 @@
                     this.$store.commit('error/setCode', response.status)
                     return false
                 }
-                // this.photos = response.data.data
+                this.photos = response.data.data
                 this.currentPage = response.data.current_page
                 this.lastPage = response.data.last_page
                 console.log('fetchphots')
                 this.$forceUpdate();
                 // this.$set(this, 'photos', response.data.data)
 
-                photos = photos.each.(photo => (photo.dummy_id = phodo.id + systemtime()))
-
+                this.photos.forEach(data => {
+                        let d = new Date()
+                        console.log(d.getTime())
+                        data.key_id = data.id + d.getTime()
+                    }
+                )
                 this.photos = Object.assign({}, this.photos, response.data.data )
 
             },
